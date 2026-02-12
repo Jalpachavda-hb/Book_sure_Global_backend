@@ -4,7 +4,7 @@ import mailTransporter from "../config/Mail.js";
 export const submitPricingInquiry = (req, res) => {
   const { plan, name, phone, email, message } = req.body;
 
-  if (!plan || !name || !phone || !email || !message) {
+  if ( !name || !phone || !email || !message) {
     return res.status(400).json({
       success: false,
       message: "All fields are required",
@@ -14,9 +14,9 @@ export const submitPricingInquiry = (req, res) => {
   // 1️⃣ Save inquiry
   db.query(
     `INSERT INTO pricing_inquiries
-     (pricing_model, name, phone, email, message)
-     VALUES (?, ?, ?, ?, ?)`,
-    [plan, name, phone, email, message],
+     ( name, phone, email, message)
+     VALUES (?, ?, ?, ?)`,
+    [ name, phone, email, message],
     (err) => {
       if (err) {
         return res.status(500).json({
@@ -46,8 +46,7 @@ export const submitPricingInquiry = (req, res) => {
               replyTo: email, // ✅ reply goes to user
               subject: `New Pricing Inquiry – ${plan}`,
               html: `
-                <h3>New Pricing Inquiry</h3>
-                <p><strong>Plan:</strong> ${plan}</p>
+                <h3>New Pricing Inquiry</h3>            
                 <p><strong>Name:</strong> ${name}</p>
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Phone:</strong> ${phone}</p>

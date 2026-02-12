@@ -1,5 +1,5 @@
 import db from "../../config/db.js";
-const REACT_BASE_URL = process.env.APP_URL || "http://localhost:8000";
+const BASE_URL = process.env.CLIENT_URL || "http://localhost:8000";
 export const getHero = (req, res) => {
   const sql = `
     SELECT 
@@ -36,9 +36,9 @@ export const getHero = (req, res) => {
       message: "Hero section fetched successfully",
       data: {
         ...data,
-        background_image: data.background_image
-          ? `http://localhost:8000/${data.background_image}`
-          : null,
+       background_image: data.background_image
+  ? `${BASE_URL}/${data.background_image}`
+  : null,
       },
     });
   });
