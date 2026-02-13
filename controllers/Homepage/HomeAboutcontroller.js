@@ -1,5 +1,5 @@
 import db from "../../config/db.js";
-const REACT_BASE_URL = process.env.CLIENT_URL || "http://localhost:8000";
+const CLIENT_URL = process.env.CLIENT_URL || "https://booksureglobal.com";
 export const getHomeAbout = (req, res) => {
   const sql = `
     SELECT
@@ -38,9 +38,9 @@ export const getHomeAbout = (req, res) => {
       success: true,
       data: {
         ...data,
-        mainimage: data.mainimage ? `${REACT_BASE_URL}/${data.mainimage}` : null,
+        mainimage: data.mainimage ? `${CLIENT_URL}/${data.mainimage}` : null,
         secondimage: data.secondimage
-          ? `${REACT_BASE_URL}/${data.secondimage}`
+          ? `${CLIENT_URL}/${data.secondimage}`
           : null,
       },
     });

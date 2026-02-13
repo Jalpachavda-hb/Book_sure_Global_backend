@@ -40,7 +40,7 @@ app.use(
     contentSecurityPolicy: false,
   }),
 );
-const allowedOrigins = [process.env.ADMIN_URL, process.env.CLIENT_URL];
+const allowedOrigins = [process.env.ADMIN_URL, process.env.WEBSIE_URL];
 
 app.use(cors({ origin: allowedOrigins }));
 

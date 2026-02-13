@@ -1,19 +1,19 @@
 import db from "../config/db.js";
 
-const REACT_BASE_URL = process.env.REACT_BASE_URL || "http://localhost:8000";
+const CLIENT_URL = process.env.CLIENT_URL || "https://booksureglobal.com";
 
 /* ✅ IMAGE URL HELPER */
-export const getImageUrl = (file, folder = "data_security") => {
-  if (!file) return null;
+// export const getImageUrl = (file, folder = "data_security") => {
+//   if (!file) return null;
 
-  if (file.startsWith("http")) return file;
+//   if (file.startsWith("http")) return file;
 
-  if (file.startsWith("/uploads")) {
-    return `${REACT_BASE_URL}${file}`;
-  }
+//   if (file.startsWith("/uploads")) {
+//     return `${CLIENT_URL}${file}`;
+//   }
 
-  return `${REACT_BASE_URL}/uploads/${folder}/${file}`;
-};
+//   return `${CLIENT_URL}/uploads/${folder}/${file}`;
+// };
 
 /* ================================================= */
 /* ✅ GET DATA SECURITY SECTION */
@@ -40,7 +40,9 @@ export const getDataSecuritySection = (req, res) => {
     data.how_we_keep_secure = JSON.parse(data.how_we_keep_secure || "[]");
 
     /* ✅ Fix Image URLs */
-    data.main_image = getImageUrl(data.main_image);
+    data.main_image = data.main_image
+      ? `${CLIENT_URL}/${data.main_image}`
+      : null;
 
     res.json({
       success: true,

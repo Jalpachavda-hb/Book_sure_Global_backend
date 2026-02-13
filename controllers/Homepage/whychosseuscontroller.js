@@ -1,22 +1,5 @@
 import db from "../../config/db.js";
-const REACT_BASE_URL = process.env.REACT_BASE_URL || "http://localhost:8000";
-
-export const getImageUrl = (file) => {
-  if (!file) return null;
-
-  // ✅ Already full URL
-  if (file.startsWith("http")) return file;
-
-  // ✅ If stored with /uploads already
-  if (file.startsWith("/uploads")) {
-    return `${REACT_BASE_URL}${file}`;
-  }
-
-  // ✅ Only filename stored
-  return `${REACT_BASE_URL}/uploads/whychosseus/${file}`;
-};
-
-
+const CLIENT_URL = process.env.CLIENT_URL || "https://booksureglobal.com";
 
 export const getWhyChooseUs = (req, res) => {
   const sql = `SELECT * FROM whychosseusmaster LIMIT 1`;
@@ -36,11 +19,11 @@ export const getWhyChooseUs = (req, res) => {
 
     const data = rows[0];
 
-    // ✅ Parse speciality list
     data.speciality_list = JSON.parse(data.speciality_list || "[]");
 
-    // ✅ Correct Image URL
-    data.whychosseus_image = getImageUrl(data.whychosseus_image);
+    data.whychosseus_image = data.whychosseus_image
+      ? `${CLIENT_URL}/${data.whychosseus_image}`
+      : null;
 
     res.json({
       success: true,
@@ -102,7 +85,7 @@ export const updateWhyChooseUs = (req, res) => {
         success: true,
         message: "Updated Successfully ✅",
       });
-    }
+    },
   );
 };
 export default {
