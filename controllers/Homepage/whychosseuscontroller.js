@@ -21,9 +21,9 @@ export const getWhyChooseUs = (req, res) => {
 
     data.speciality_list = JSON.parse(data.speciality_list || "[]");
 
-    data.whychosseus_image = data.whychosseus_image
-      ? `${CLIENT_URL}/${data.whychosseus_image}`
-      : null;
+data.whychosseus_image = data.whychosseus_image
+  ? `${CLIENT_URL}/uploads/whychosseus/${data.whychosseus_image}`
+  : null;
 
     res.json({
       success: true,
