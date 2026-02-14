@@ -13,7 +13,7 @@ export const getHomeAbout = (req, res) => {
       updated_by,
       created_at,
       updated_at
-    FROM HomeAboutMaster
+    FROM homeaboutmaster
     WHERE id = 1
     LIMIT 1
   `;
@@ -100,7 +100,7 @@ export const updateHomeAboutSection = (req, res) => {
   }
 
   const sql = `
-    UPDATE HomeAboutMaster
+    UPDATE homeaboutmaster
     SET ${fields.join(", ")}
     WHERE id = 1
   `;

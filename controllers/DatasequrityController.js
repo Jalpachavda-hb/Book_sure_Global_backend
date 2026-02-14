@@ -25,13 +25,13 @@ export const getDataSecuritySection = (req, res) => {
     if (err)
       return res.status(500).json({
         success: false,
-        message: "Database Error ❌",
+        message: "Database Error ",
       });
 
     if (!rows.length)
       return res.json({
         success: false,
-        message: "Data Not Found ❌",
+        message: "Data Not Found ",
       });
 
     const data = rows[0];
@@ -41,7 +41,7 @@ export const getDataSecuritySection = (req, res) => {
 
     /* ✅ Fix Image URLs */
     data.main_image = data.main_image
-      ? `${CLIENT_URL}/${data.main_image}`
+      ? `${CLIENT_URL}/uploads/data_security/${data.main_image}`
       : null;
 
     res.json({

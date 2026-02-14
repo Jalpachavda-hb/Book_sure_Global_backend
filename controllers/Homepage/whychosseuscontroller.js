@@ -8,13 +8,13 @@ export const getWhyChooseUs = (req, res) => {
     if (err)
       return res.status(500).json({
         success: false,
-        message: "Database error ❌",
+        message: "Database error",
       });
 
     if (!rows.length)
       return res.json({
         success: false,
-        message: "Data Not Found ❌",
+        message: "Data Not Found",
       });
 
     const data = rows[0];
