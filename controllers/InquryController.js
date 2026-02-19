@@ -2,7 +2,7 @@ import db from "../config/db.js";
 import mailTransporter from "../config/Mail.js";
 
 export const submitPricingInquiry = (req, res) => {
-  const { plan, name, phone, email, message } = req.body;
+  const { name, phone, email, message } = req.body;
 
   if (!name || !phone || !email || !message) {
     return res.status(400).json({
@@ -17,7 +17,7 @@ export const submitPricingInquiry = (req, res) => {
     [name, phone, email, message],
     (err) => {
       if (err) {
-        console.error("DB Error:", err);   // 👈 ADD THIS
+        console.error("DB Error:", err); // 👈 ADD THIS
         return res.status(500).json({
           success: false,
           message: "Failed to submit inquiry",
@@ -39,17 +39,56 @@ export const submitPricingInquiry = (req, res) => {
 
           try {
             await mailTransporter.sendMail({
-              from: `"Pricing Inquiry" <${process.env.MAIL_USER}>`,
+              from: `"BookSure Global" <${process.env.MAIL_USER}>`,
               to: adminEmails.join(","),
               replyTo: email,
-              subject: `New Pricing Inquiry – ${plan}`,
+              subject: `📩 New Pricing Inquiry Received`,
               html: `
-                <h3>New Pricing Inquiry</h3>
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Phone:</strong> ${phone}</p>
-                <p><strong>Message:</strong><br/>${message}</p>
-              `,
+  <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 30px;">
+    
+    <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+      
+      <!-- Header -->
+      <div style="background: #102654; padding: 20px; text-align: center;">
+        <h2 style="color: #ffffff; margin: 0;">New Pricing Inquiry</h2>
+      </div>
+
+      <!-- Body -->
+      <div style="padding: 25px;">
+        <p style="font-size: 14px; color: #555;">
+          You have received a new pricing inquiry from your website.
+        </p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+          <tr>
+            <td style="padding: 8px; font-weight: bold;">Name:</td>
+            <td style="padding: 8px;">${name}</td>
+          </tr>
+          <tr style="background-color: #f9fafc;">
+            <td style="padding: 8px; font-weight: bold;">Email:</td>
+            <td style="padding: 8px;">${email}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; font-weight: bold;">Phone:</td>
+            <td style="padding: 8px;">${phone}</td>
+          </tr>
+          <tr style="background-color: #f9fafc;">
+            <td style="padding: 8px; font-weight: bold;">Message:</td>
+            <td style="padding: 8px;">${message}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Footer -->
+      <div style="background: #f1f3f6; padding: 15px; text-align: center; font-size: 12px; color: #777;">
+        This email was automatically generated from your website contact form.
+        <br/>
+        © ${new Date().getFullYear()} BookSure Global. All rights reserved.
+      </div>
+
+    </div>
+  </div>
+  `,
             });
           } catch (mailErr) {
             console.error("Mail failed:", mailErr);
@@ -59,9 +98,9 @@ export const submitPricingInquiry = (req, res) => {
             success: true,
             message: "Inquiry submitted successfully",
           });
-        }
+        },
       );
-    }
+    },
   );
 };
 export const getPricingInquiries = (req, res) => {

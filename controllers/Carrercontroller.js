@@ -53,27 +53,80 @@ export const submitCareerApplication = (req, res) => {
           }
 
           try {
-            await mailTransporter.sendMail({
-              from: `"Career Application" <${process.env.MAIL_USER}>`,
-              to: adminEmails.join(","), // ✅ EXACTLY LIKE INQUIRY
-              replyTo: email,
-              subject: `New Job Application – ${position}`,
-              html: `
-                <h3>New Career Application</h3>
-                <p><b>Name:</b> ${full_name}</p>
-                <p><b>Position:</b> ${position}</p>
-                <p><b>Email:</b> ${email}</p>
-                <p><b>Phone:</b> ${phone}</p>               
-              `,
-              attachments: resume
-                ? [
-                    {
-                      filename: resume,
-                      path: `uploads/careers/${resume}`,
-                    },
-                  ]
-                : [],
-            });
+       await mailTransporter.sendMail({
+  from: `"BookSure Global - Careers" <${process.env.MAIL_USER}>`,
+  to: adminEmails.join(","),
+  replyTo: email,
+  subject: `📄 New Job Application – ${position}`,
+  html: `
+  <div style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 30px;">
+    
+    <div style="max-width: 650px; margin: auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+      
+      <!-- Header -->
+      <div style="background: #102654; padding: 22px; text-align: center;">
+        <h2 style="color: #ffffff; margin: 0; letter-spacing: 0.5px;">
+          New Career Application
+        </h2>
+      </div>
+
+      <!-- Body -->
+      <div style="padding: 30px;">
+        <p style="font-size: 14px; color: #555; margin-bottom: 20px;">
+          A new candidate has submitted a job application through the website.
+        </p>
+
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+          <tr>
+            <td style="padding: 10px; font-weight: bold; width: 30%;">Full Name:</td>
+            <td style="padding: 10px;">${full_name}</td>
+          </tr>
+          <tr style="background-color: #f9fafc;">
+            <td style="padding: 10px; font-weight: bold;">Position Applied:</td>
+            <td style="padding: 10px;">${position}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; font-weight: bold;">Email Address:</td>
+            <td style="padding: 10px;">${email}</td>
+          </tr>
+          <tr style="background-color: #f9fafc;">
+            <td style="padding: 10px; font-weight: bold;">Phone Number:</td>
+            <td style="padding: 10px;">${phone}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; font-weight: bold;">Resume:</td>
+            <td style="padding: 10px;">
+              ${resume ? "Attached with this email." : "No resume uploaded."}
+            </td>
+          </tr>
+        </table>
+
+        <div style="margin-top: 25px; padding: 15px; background: #f1f3f6; border-left: 4px solid #102654;">
+          <p style="margin: 0; font-size: 13px; color: #666;">
+            📌 Please review the candidate details and resume attachment for further evaluation.
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="background: #f1f3f6; padding: 15px; text-align: center; font-size: 12px; color: #777;">
+        This email was automatically generated from the BookSure Global careers page.
+        <br/>
+        © ${new Date().getFullYear()} BookSure Global. All rights reserved.
+      </div>
+
+    </div>
+  </div>
+  `,
+  attachments: resume
+    ? [
+        {
+          filename: resume,
+          path: `uploads/resume/${resume}`,
+        },
+      ]
+    : [],
+});
 
             console.log("Career mail sent to:", adminEmails);
           } catch (mailErr) {
